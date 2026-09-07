@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+*.egg-info/
+
+# Environment & secrets
+.env
+
+# SQLite local dev database
+*.db
+*.sqlite3
+
+# Flask-Migrate (local only — instance folder)
+instance/
+
+# OS files
+.DS_Store
+Thumbs.db

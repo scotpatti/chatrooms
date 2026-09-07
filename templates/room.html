@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ room.name }} &mdash; ChatRooms{% endblock %}
+
+{% block meta %}
+  <meta http-equiv="refresh" content="30">
+{% endblock %}
+
+{% block content %}
+<p style="margin-bottom:14px;">
+  <a href="{{ url_for('index') }}">&larr; Back to Lobby</a>
+</p>
+
+<h2>{{ room.name }}</h2>
+<p class="meta" style="margin-bottom:20px;">
+  Created by <strong>{{ room.created_by }}</strong>
+  &bull; {{ room.message_count }} message{{ "s" if room.message_count != 1 }}
+</p>
+
+<div class="card" style="padding: 12px; max-height: 460px; overflow-y: auto;" id="messages">
+  {% if messages %}
+    {% for msg in messages %}
+    <div style="padding: 8px 4px; {% if not loop.last %}border-bottom: 1px solid #f0f0f0;{% endif %}
+                margin-bottom: {% if not loop.last %}8px{% else %}0{% endif %};">
+      <span style="font-weight:700; color:#1B1F3A;">{{ msg.author }}</span>
+      <span class="meta" style="margin-left:8px;">
+        {{ msg.posted_at.strftime("%b %d %I:%M %p") }}
+      </span>
+      <div style="margin-top:4px; line-height:1.5;">{{ msg.content }}</div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="empty">No messages yet &mdash; say something!</p>
+  {% endif %}
+</div>
+
+<div class="card" style="margin-top:16px;">
+  <form method="POST">
+    <label>Post as <strong>{{ nickname }}</strong></label>
+    <div class="row" style="align-items:flex-end;">
+      <textarea name="content" rows="2" maxlength="1000"
+                placeholder="Type your message&hellip;" required
+                style="resize:vertical;"></textarea>
+      <button type="submit">Send &rarr;</button>
+    </div>
+  </form>
+</div>
+
+<p class="meta" style="text-align:center; margin-top:10px;">
+  &#8635; Page refreshes automatically every 5 seconds
+</p>
+{% endblock %}

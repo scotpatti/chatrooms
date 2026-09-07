@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block meta %}{% endblock %}
+  <title>{% block title %}ChatRooms{% endblock %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body   { font-family: system-ui, -apple-system, sans-serif; background: #f3f4f6; color: #1f2937; min-height: 100vh; }
+    header { background: #1B1F3A; color: #fff; padding: 14px 24px; display: flex; justify-content: space-between; align-items: center; }
+    header h1  { font-size: 1.25rem; letter-spacing: .02em; }
+    header .nick { font-size: 0.82rem; opacity: .7; }
+    main   { max-width: 820px; margin: 32px auto; padding: 0 16px 48px; }
+    h2     { font-size: 1.4rem; color: #1B1F3A; margin-bottom: 18px; }
+    a      { color: #0078D4; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .card  { background: #fff; border-radius: 10px; padding: 20px; margin-bottom: 16px;
+             box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    label  { display: block; font-weight: 600; margin-bottom: 8px; }
+    input[type=text], textarea {
+      width: 100%; padding: 10px 12px; border: 1px solid #d1d5db;
+      border-radius: 6px; font-size: 1rem; font-family: inherit;
+    }
+    input[type=text]:focus, textarea:focus { outline: 2px solid #0078D4; border-color: transparent; }
+    button { background: #0078D4; color: #fff; border: none; padding: 10px 20px;
+             border-radius: 6px; font-size: 1rem; cursor: pointer; white-space: nowrap; }
+    button:hover { background: #005fa3; }
+    .row   { display: flex; gap: 10px; align-items: flex-start; }
+    .row input, .row textarea { flex: 1; }
+    .meta  { font-size: 0.78rem; color: #6b7280; margin-top: 4px; }
+    .empty { text-align: center; color: #9ca3af; padding: 32px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>&#128172; ChatRooms</h1>
+    <span class="nick">You are: <strong>{{ nickname }}</strong></span>
+  </header>
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
