@@ -35,7 +35,17 @@
 <body>
   <header>
     <h1>&#128172; Chat Rooms</h1>
-    <span class="nick">You are: <strong>{{ nickname }}</strong></span>
+    <!-- Added p12 of Chapter 3 Lab -->
+    <!-- <span class="nick">You are: <strong>{{ nickname }}</strong></span> -->
+    <nav style="background:#0A2342; color:white; padding:10px 20px; display:flex; justify-content:space-between; align-items:center;">
+    <span style="font-weight:bold; font-size:1.1em;">💬 ChatRooms</span>
+    <span>
+      Signed in as <strong>{{ session['user']['name'] }}</strong>
+      &nbsp;|&nbsp;
+      <a href="{{ url_for('logout') }}" style="color:#FFC107;">Sign out</a>
+    </span>
+</nav>
+
   </header>
   <main>
     {% block content %}{% endblock %}
