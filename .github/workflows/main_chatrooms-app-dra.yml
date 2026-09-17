@@ -67,6 +67,25 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6266E7125E224EE2B89451BA237D9E07 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_B9D186FAB8154B2E917B83B75622FE6C }}
 
+      # TEMPORARY DIAGNOSTIC - remove after identifying the live identity.
+      # Prints only the matching identity's NAME, never the client ID/secret itself.
+      - name: Identify which managed identity is live
+        run: |
+          declare -A CANDIDATES=(
+            ["oidc-msi-b85a"]="e83f1b6e-411e-4986-bf6b-b2e72769b41f"
+            ["oidc-msi-88cb"]="dd79663a-be29-4f04-a34e-d78621bec42d"
+            ["oidc-msi-8bcf"]="577c70a4-9f18-496c-ab30-0eb400a23d7b"
+            ["oidc-msi-90e8"]="f36ca4dd-8936-45ec-9d0d-486aa3d6ee59"
+          )
+          ACTUAL="${{ secrets.AZUREAPPSERVICE_CLIENTID_120594CC73D94DA4BD540B8BC50C9602 }}"
+          FOUND="no match found among the 4 candidates"
+          for name in "${!CANDIDATES[@]}"; do
+            if [ "${CANDIDATES[$name]}" = "$ACTUAL" ]; then
+              FOUND="$name"
+            fi
+          done
+          echo "GitHub is using identity: $FOUND"
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
