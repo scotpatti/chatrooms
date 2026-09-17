@@ -6,12 +6,18 @@ from flask import Flask, redirect, render_template, request, session, url_for, f
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from functools import wraps
+# Next line added to fix proxy issues on Azure - see line 21.
+from werkzeug.middleware.proxy_fix import ProxyFix
 import msal
 import uuid
 import os
 
 
 app = Flask(__name__)
+# Azure App Service terminates TLS and forwards plain HTTP to the container,
+# so trust the X-Forwarded-Proto/Host headers to build correct https:// URLs.
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL", "sqlite:///chatrooms.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.secret_key = os.environ.get('TENANT_ID', 'common') # I believe flask uses this to sign session cookies and that it should be the SECRET_KEY from .env.example
